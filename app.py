@@ -1,6 +1,8 @@
-from flask import Flask,render_template,url_for,request,redirect
+from flask import Flask,jsonify,render_template,url_for,request,redirect,jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from flask_cors import CORS
+
 import pickle
 
 app = Flask(__name__)
@@ -33,7 +35,7 @@ def index():
             return 'There was an issue adding your task'
     else:
         tasks = Todo.query.order_by(Todo.date_created).all()
-        return render_template('index.html',tasks=tasks)
+        return "ok"
 
 
 @app.route('/delete/<int:id>')
@@ -62,8 +64,8 @@ def update(id):
     else:
         return render_template('update.html',task=task)
 
-@app.route('/predict',methods=['GET'])
-def predict():
+@app.route('/expredict',methods=['GET'])
+def expredict():
     input_string = str(request.form.get("txt"))
     print(input_string)
     input_lst = []
@@ -73,6 +75,17 @@ def predict():
     print(prediction[0])
     return prediction[0]
 
+@app.route('/predict',methods=['POST'])
+@cross_origin()
+def predict():
+    input_string = request.form.get()
+    
+    input_lst = []
+
+   
+    
+    return "ok"
 
 if __name__ == "__main__":
     app.run(debug=True)
+    CORS(app)
