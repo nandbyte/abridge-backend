@@ -1,7 +1,7 @@
-from flask import Flask,jsonify,render_template,url_for,request,redirect,jsonify
+from flask import Flask,jsonify,Response,render_template,url_for,request,redirect,jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 import pickle
 
@@ -49,25 +49,13 @@ def delete(id):
     except:
         return 'There was a problem deleting that task'
 
-@app.route('/update/<int:id>',methods = ['GET','POST'])
-def update(id):
-    task = Todo.query.get_or_404(id)
 
-    if request.method == 'POST':
-        task.content = request.form['content']
 
-        try:
-            db.session.commit()
-            return redirect('/')
-        except:
-            return 'There was an issue updating your task'
-    else:
-        return render_template('update.html',task=task)
-
-@app.route('/expredict',methods=['GET'])
+@app.route('/expredict',methods=['POST'])
 def expredict():
-    input_string = str(request.form.get("txt"))
+    input_string = request.form.args('txt')
     print(input_string)
+    print(type(input_string)) 
     input_lst = []
     input_lst.append(input_string)
     summary_model = pickle.load(open("finalmodel.pkl", 'rb'))
@@ -78,13 +66,33 @@ def expredict():
 @app.route('/predict',methods=['POST'])
 @cross_origin()
 def predict():
-    input_string = request.form.get()
+    input_string = request.get_json('txt')
     
-    input_lst = []
+    lst  = list(input_string.values())
+    print(len(lst[0]))
 
-   
+    length = len(lst[0])
+    lst1 = []
+    for i in range(0,length):
+        lst1.append(lst[0][i])
+
+    model = pickle.load(open("finalmodel.pkl", 'rb'))
     
-    return "ok"
+    ans_list = []
+    strans = "" 
+    for i in range(0,length):
+        ans_list += model.predict([lst1[i]])
+        strans += ans_list[i]
+        strans += ". "
+    
+    print(strans) 
+    
+    data = {
+        "summary": strans
+    }
+    return Response(strans)
+
+    
 
 if __name__ == "__main__":
     app.run(debug=True)
