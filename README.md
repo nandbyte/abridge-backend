@@ -2,7 +2,7 @@
 
 Get the pickle file from this:
 [finalmodel.pkl](https://drive.google.com/file/d/1x0cSruyxJx3BMtDRq_q-VnL4nVnmpv43/view?usp=sharing)
-<br />Put this file in the deployment directory.
+<br />Put this file in the deploy directory.
 
 # Run
 
