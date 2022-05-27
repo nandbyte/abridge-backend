@@ -6,7 +6,7 @@ from flask_cors import CORS, cross_origin
 import pickle
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///no.db'
 
 db = SQLAlchemy(app)
 
@@ -55,7 +55,7 @@ def delete(id):
 def expredict():
     input_string = request.form.args('txt')
     print(input_string)
-    print(type(input_string)) 
+    print(type(input_string))
     input_lst = []
     input_lst.append(input_string)
     summary_model = pickle.load(open("finalmodel.pkl", 'rb'))
@@ -67,7 +67,7 @@ def expredict():
 @cross_origin()
 def predict():
     input_string = request.get_json('txt')
-    
+
     lst  = list(input_string.values())
     print(len(lst[0]))
 
@@ -77,22 +77,22 @@ def predict():
         lst1.append(lst[0][i])
 
     model = pickle.load(open("finalmodel.pkl", 'rb'))
-    
+
     ans_list = []
-    strans = "" 
+    strans = ""
     for i in range(0,length):
         ans_list += model.predict([lst1[i]])
         strans += ans_list[i]
         strans += ". "
-    
-    print(strans) 
-    
+
+    print(strans)
+
     data = {
         "summary": strans
     }
     return Response(strans)
 
-    
+
 
 if __name__ == "__main__":
     app.run(debug=True)
