@@ -1,2 +1,3 @@
-*.pkl
+deploy/*.pkl
 /env/*
+.gitignore
