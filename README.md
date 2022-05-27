@@ -4,10 +4,11 @@ Get the pickle file from this:
 [finalmodel.pkl](https://drive.google.com/file/d/1x0cSruyxJx3BMtDRq_q-VnL4nVnmpv43/view?usp=sharing)
 <br />Put this file in the deployment directory.
 
-# How to run this
+# Run
 
 ```
-cd deployment
+git clone git@github.com:nandbyte/abridge-backend.git
+cd abridge-backend/deployment
 pip3 -r install requirements.txt
 flask run
 ```
