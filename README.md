@@ -9,8 +9,9 @@ Put this file in the deployment directory.
 ```
 cd deployment
 source /venv/bin/activate
-pip3 -r install requirements.txt
+pip/pip3 -r install requirements.txt
 flask run
 ```
 
-The api will be running on localhost:5000
+The api will be running on localhost:5000/predict.
+Tested on Ubuntu 20.04 LTS.
